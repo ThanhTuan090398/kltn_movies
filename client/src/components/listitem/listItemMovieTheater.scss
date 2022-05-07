@@ -1,0 +1,75 @@
+.listItemMovieTheater {
+  width: 100%;
+  height: 100%;
+  .singleFilm {
+    position: relative;
+    .imgMovie {
+      width: 220px;
+      height: 370px;
+      border-radius: 15px;
+      margin-right: 10px;
+      margin-bottom: 15px;
+    }
+    .itemInfo {
+      display: none;
+    }
+
+    &:hover {
+      .imgMovie {
+        opacity: 0.3;
+        transform: scale(0.9);
+        transition: all 0.5s ease;
+      }
+
+      .itemInfo {
+        position: absolute;
+        top: 140px;
+        left: 25px;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        margin-top: 20px;
+        .titleMovie {
+          color: orange;
+          font-weight: bold;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+        .icons {
+          display: flex;
+          margin-bottom: 10px;
+          .icon {
+            border: 2px solid white;
+            padding: 5px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 32px;
+          }
+        }
+        .itemInfoTop {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          font-size: 14px;
+          font-weight: 600;
+          color: gray;
+
+          .limit {
+            border: 1px solid white;
+            color: white;
+            padding: 1px 3px;
+            margin: 0 10px;
+          }
+          .genre {
+            color: white;
+            margin: 0 10px;
+          }
+          .year {
+            margin: 0 10px;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

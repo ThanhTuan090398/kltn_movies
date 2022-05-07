@@ -1,0 +1,19 @@
+//layouts
+
+@import "./Layouts/list";
+@import "./Layouts/footer";
+@import "./Layouts/featured";
+@import "./Layouts/listitem";
+@import "./Layouts/navbar";
+
+//pages
+
+@import "./Pages/home";
+@import "./Pages/login";
+@import "./Pages/register";
+@import "./Pages/watch";
+
+//mixin
+
+@import "./Helper/mixin";
+@import "./Helper/app";
