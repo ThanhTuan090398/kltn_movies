@@ -69,7 +69,7 @@ router.get("/random", verify, async (req, res) => {
   const type = req.query.type;
   let movie;
   try {
-    if (type === "series") {
+    if (type === "movie") {
       movie = await Movie.aggregate([
         { $match: { isSeries: true } },
         { $sample: { size: 1 } },
@@ -100,4 +100,82 @@ router.get("/", verify, async (req, res) => {
     res.status(403).json("You are not allowed!");
   }
 });
+
+// get movie via tag
+router.get("/taggenre", verify, async (req, res) => {
+  const genreQuery = req.query.genre;
+
+  if (req.user.isAdmin) {
+    try {
+      if (genreQuery) {
+        movies = await Movie.aggregate([
+          { $sample: { size: 100 } },
+          {
+            $match: {
+              genre: genreQuery,
+            },
+          },
+        ]);
+      } else {
+        movies = await Movie.aggregate([{ $sample: { size: 100 } }]);
+      }
+      res.status(200).json(movies);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
+router.get("/tagyear", verify, async (req, res) => {
+  const yearQuery = req.query.year;
+  if (req.user.isAdmin) {
+    try {
+      if (yearQuery) {
+        movies = await Movie.aggregate([
+          { $sample: { size: 100 } },
+          {
+            $match: {
+              year: yearQuery,
+            },
+          },
+        ]);
+      } else {
+        movies = await Movie.aggregate([{ $sample: { size: 100 } }]);
+      }
+      res.status(200).json(movies);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
+router.get("/tagnation", verify, async (req, res) => {
+  const nationQuery = req.query.nation;
+  if (req.user.isAdmin) {
+    try {
+      if (nationQuery) {
+        movies = await Movie.aggregate([
+          { $sample: { size: 100 } },
+          {
+            $match: {
+              nation: nationQuery,
+            },
+          },
+        ]);
+      } else {
+        movies = await Movie.aggregate([{ $sample: { size: 100 } }]);
+      }
+      res.status(200).json(movies);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
 module.exports = router;

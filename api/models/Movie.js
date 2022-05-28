@@ -7,14 +7,17 @@ const MovieSchema = new mongoose.Schema(
     img: { type: String },
     imgTitle: { type: String },
     imgSm: { type: String },
+    imgPost: { type: String },
     trailer: { type: String },
     video: { type: String },
     year: { type: String },
     limit: { type: Number },
     genre: { type: String },
+    type: { type: String },
+    nation: { type: String },
     isSeries: { type: Boolean, default: false },
     duration: { type: String },
-    stageName: { type: Array },
+    listActor: { type: Array },
     imdb: { type: String },
     director: {
       directorName: { type: String },
@@ -23,10 +26,20 @@ const MovieSchema = new mongoose.Schema(
       directorDesc: { type: String },
       movieJoin: { type: Array },
     },
+
     producer: { type: Array },
     filmLocations: { type: String },
     writer: { type: Array },
+    listVideoSub: { type: Array },
+    listPost: { type: Array },
+    listVideoTM: { type: Array },
+    isSup: { type: String },
+    movieTag: { type: Array },
+    listLiked: { type: Array },
+    listDisLiked: { type: Array },
+    listComment: { type: Array },
   },
+
   { timestamps: true }
 );
 

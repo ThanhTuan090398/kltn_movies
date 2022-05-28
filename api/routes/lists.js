@@ -18,6 +18,23 @@ router.post("/", verify, async (req, res) => {
   }
 });
 
+router.put("/:id", verify, async (req, res) => {
+  if (req.user.isAdmin) {
+    try {
+      const updatedList = await List.findByIdAndUpdate(
+        req.params.id,
+        { $set: req.body },
+        { new: true }
+      );
+      res.status(200).json(updatedList);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
 //delete list
 router.delete("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
@@ -41,7 +58,9 @@ router.get("/", verify, async (req, res) => {
       if (genreQuery) {
         list = await List.aggregate([
           { $sample: { size: 10 } },
-          { $match: { type: typeQuery, genre: genreQuery } },
+          {
+            $match: { type: typeQuery, genre: genreQuery },
+          },
         ]);
       } else {
         list = await List.aggregate([
@@ -53,6 +72,9 @@ router.get("/", verify, async (req, res) => {
       list = await List.aggregate([{ $sample: { size: 10 } }]);
     }
     res.status(200).json(list);
+    // setTimeout(() => {
+    //   res.status(200).json(list);
+    // }, 3000);
   } catch (err) {
     res.status(500).json(err);
   }

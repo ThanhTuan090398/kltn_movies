@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const Actor = require("../models/Actor");
-const Movie = require("../models/Movie");
 const verify = require("../verifyToken");
 
 //CREATE
@@ -27,6 +26,7 @@ router.put("/:id", verify, async (req, res) => {
         { $set: req.body },
         { new: true }
       );
+      res.status(200).json(updatedActor);
     } catch (error) {
       res.status(500).json(500);
     }
@@ -58,7 +58,6 @@ router.get("/find/:id", verify, async (req, res) => {
 });
 //GET ALL
 router.get("/", verify, async (req, res) => {
-  const query = req.query.new;
   if (req.user.isAdmin) {
     try {
       const actors = await Actor.find();

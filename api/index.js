@@ -7,6 +7,7 @@ const userRoute = require("./routes/users");
 const movieRoute = require("./routes/movies");
 const listRoute = require("./routes/lists");
 const actorRoute = require("./routes/actors");
+const commentRoute = require("./routes/comments");
 var port = process.env.PORT || 8800;
 
 const cors = require("cors");
@@ -26,7 +27,15 @@ app.use("/api/users", userRoute);
 app.use("/api/movies", movieRoute);
 app.use("/api/lists", listRoute);
 app.use("/api/actors", actorRoute);
+app.use("/api/comments", commentRoute);
+// app.listen(port, () => {
+//   console.log("Backend server is running!");
+// });
 
-app.listen(port, () => {
-  console.log("Backend server is running!");
+app.listen(process.env.PORT || 8800, function () {
+  console.log(
+    "Express server listening on port %d in %s mode",
+    this.address().port,
+    app.settings.env
+  );
 });
