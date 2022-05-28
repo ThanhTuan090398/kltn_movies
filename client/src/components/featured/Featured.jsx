@@ -13,7 +13,7 @@ export default function Featured({ type, setGenre }) {
         const res = await axios.get(`/movies/random?type=${type}`, {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzU4YjZjOTUwMDJlYTJmZjFjYjMzZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MTgyNTIwNywiZXhwIjoxOTExMDI1MjA3fQ.zUnmi1ldGu_OBidqwP6V2MQc1cpCohfWySOxLIwww18",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzU4YjZjOTUwMDJlYTJmZjFjYjMzZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1Mjk1ODI3NywiZXhwIjoxOTEyMTU4Mjc3fQ.Heinb3EcvZ5OhivlA-ocY-9rBm8QyFLog_mXKae_D6E",
           },
         });
         setContent(res.data[0]);
@@ -43,7 +43,7 @@ export default function Featured({ type, setGenre }) {
     <div className="featured">
       {type && (
         <div className="category">
-          <span>{type === "movies" ? "Series" : "Movies"}</span>
+          <span>{type === "movie" ? "Movies" : "Series"}</span>
           <select
             name="genre"
             id="genre"
@@ -98,11 +98,14 @@ export default function Featured({ type, setGenre }) {
 
       <div className="info">
         <img className="imgTitle" src={content.imgTitle} alt="" />
+        <span className="featuredTitle">
+          {String(content.title).substring(0, 13)}
+        </span>
         {isShowDetail ? (
           <span className="desc">{content.desc}</span>
         ) : (
           <span className="desc">
-            {String(content.desc).substring(0, 20) + "..."}
+            {String(content.desc).substring(0, 16) + "..."}
           </span>
         )}
 

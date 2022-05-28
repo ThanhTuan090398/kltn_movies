@@ -1,5 +1,5 @@
-import { PlayArrow, Star } from "@material-ui/icons";
-import React, { useState } from "react";
+import { PlayArrow } from "@material-ui/icons";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
@@ -7,12 +7,27 @@ import Actor from "../../components/actor/Actor";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./detail.scss";
+import { GlobalContext } from "../../context/GlobalState";
+import axios from "axios";
 
 export default function Detail() {
   const location = useLocation();
-  const movie = location.movie;
+  const movie = location.movie || JSON.parse(localStorage.getItem("movies"));
   const [isShowDetail, setIsShowDetail] = useState(true);
+  const { addMovieToWatchList, watchList } = useContext(GlobalContext);
+  const userNow = JSON.parse(localStorage.getItem("user"));
+  let storiedMovie = watchList.find((o) => o._id === movie._id);
+  const watchListDisabled = storiedMovie ? true : false;
+
+  const getActorName = () => {
+    return movie.listActor.map((item, index) => {
+      return (
+        <div>
+          <Actor key={index} item={item} type="name" />
+        </div>
+      );
+    });
+  };
 
   const settings = {
     dots: true,
@@ -49,6 +64,12 @@ export default function Detail() {
     ],
   };
 
+  useEffect(() => {
+    localStorage.setItem("movies", JSON.stringify(movie));
+    localStorage.setItem("index", JSON.stringify(null));
+    localStorage.setItem("indexTM", JSON.stringify(null));
+  }, [movie]);
+
   const onViewDetailClick = () => {
     //immutable
     setIsShowDetail(!isShowDetail);
@@ -73,16 +94,35 @@ export default function Detail() {
                   </Link>
                 </div>
               </div>
+              <div className="btnAria">
+                <Link
+                  to={{ pathname: "/watch", movie: movie }}
+                  className="link"
+                >
+                  <button className="btnXemPhim">Xem</button>
+                </Link>
+
+                <button
+                  disabled={watchListDisabled}
+                  onClick={() => addMovieToWatchList(movie)}
+                  className="btnAddToWatchList"
+                >
+                  Lưu xem sau
+                </button>
+              </div>
             </div>
             <div className="rightSide">
               <h4 className="movieName">{movie.title}</h4>
               <p>{movie.desc}</p>
               Thể loại: <span>{movie.genre}</span>
               <br />
-              Năm phát hành: <span>{movie.year}</span>
+              Đang phát: <span>{movie.isSup}</span>
               <br />
-              IMDb: <span>{movie.imdb}</span>
-              <Star style={{ color: "orange" }} />
+              Giới hạn độ tuổi: <span className="limit">{movie.limit} +</span>
+              <br />
+              Năm phát hành: <span className="year">{movie.year}</span>
+              <br />
+              IMDb: <span className="imdb">{movie.imdb}</span>
               <br />
               Thời lượng: <span>{movie.duration} phút</span>
               <br />
@@ -91,6 +131,11 @@ export default function Detail() {
               Phim trường: <span>{movie.filmLocations}</span>
               <br />
               Nhà viết sách: <span>{movie.writer + " "}</span>
+              <br />
+              Diễn viên chính:{" "}
+              <span className="actorShowName">
+                {getActorName().splice(0, 4)}
+              </span>
               <br />
               {isShowDetail ? (
                 <div>
@@ -125,7 +170,11 @@ export default function Detail() {
               </span> */}
               <br />
               <div className="directorAvatar">
-                <img src={movie.director.directorAva} alt="" />
+                {movie.director.directorAva ? (
+                  <img src={movie.director.directorAva} alt="" />
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
@@ -134,19 +183,21 @@ export default function Detail() {
               src={movie.trailer}
               allow="autoplay"
               allowFullScreen={true}
+              title="myDetailTrailerMovie"
             ></iframe>
           </div>
-          <div className="traierDescAria container">
+          <div className="trailerDescAria container">
             <p>{movie.desc}</p>
+            <img src={movie.imgPost} alt="" />
           </div>
 
           <div className="actor-detail-aria">
             <div className="actor-detail-aria-v2">
               <h3>DANH SÁCH DIỄN VIÊN THAM GIA</h3>
               <Slider {...settings}>
-                {movie.stageName.map((item, i) => (
-                  <div className="singleActorPlace">
-                    <Actor index={i} item={item} />
+                {movie.listActor.map((item, index) => (
+                  <div key={index} className="singleActorPlace">
+                    <Actor item={item} />
                   </div>
                 ))}
               </Slider>

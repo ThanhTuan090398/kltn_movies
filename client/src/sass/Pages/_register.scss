@@ -33,51 +33,64 @@
     justify-content: center;
     color: white;
 
-    h1 {
-      font-size: 25px;
-    }
-    h2 {
-      margin: 20px;
-      font-size: 25px;
-    }
-    p {
-      font-size: 20px;
-    }
-
-    .loginButton {
-      font-weight: bold;
-      font-size: 20px;
-      color: purple;
-    }
-
-    .input {
-      width: 40%;
-      background-color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
-      height: 50px;
+    .formRegister {
+      width: 440px;
+      height: 600px;
+      padding: 30px;
       border-radius: 5px;
+      background-color: var(--main-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .signUpLink {
+        font-size: 14px;
+        margin-left: 5px;
+        color: purple;
+        text-decoration: none;
+      }
 
       input {
-        flex: 9;
-        height: 100%;
-        border: none;
-        padding: 0 10px;
+        height: 40px;
+        border-radius: 5px;
+        background-color: gray;
+        color: white;
+        padding-left: 10px;
         &::placeholder {
-          font-size: 18px;
+          color: lightgray;
+          font-size: 14px;
+          font-weight: bold;
         }
+      }
+      button {
+        height: 40px;
+        border-radius: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      span {
+        color: lightgray;
+        font-weight: bold;
+        height: 20px;
       }
 
       .registerButton {
-        flex: 3;
-        height: 100%;
+        margin-top: 15px;
+        height: 50px;
         background-color: red;
         border: none;
         color: white;
         font-size: 20px;
+        font-weight: 500;
         cursor: pointer;
+        &:hover {
+          color: rgb(110, 34, 34);
+        }
       }
     }
   }

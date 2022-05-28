@@ -24,7 +24,7 @@ export default function Footer(props) {
                 </div>
               </div>
               <div className="col-md-6 px-4">
-                <h6> About Vmovie Team</h6>
+                <h6> About Vinema Team</h6>
                 <p>But horizontal lines can only be a full pixel high.</p>
                 <a href="#" className="btn-footer">
                   {" "}

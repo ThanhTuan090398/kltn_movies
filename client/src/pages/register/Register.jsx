@@ -1,40 +1,96 @@
 import axios from "axios";
-import { useRef } from "react";
-import { useState } from "react";
-import { useHistory, Link, Redirect } from "react-router-dom";
-// import "./register.scss";
 
-export default function Register({}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+import { useHistory, Link } from "react-router-dom";
+import { Formik, Form } from "formik";
+import { TextField } from "../../components/textfield/TextField";
+import * as Yup from "yup";
+
+export default function Register() {
   const history = useHistory();
+  const validate = Yup.object().shape({
+    email: Yup.string()
+      .required("Không được bỏ trống !")
+      .matches(
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        "Email bạn nhập chưa đúng vui lòng điền lại !"
+      ),
+    username: Yup.string().required("Không được bỏ trống !").max(30),
+    password: Yup.string()
+      .max(255)
+      .required("Không được bỏ trống !")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        "Mật khẩu tối thiểu 8 kí tự bao gồm chữ và số !"
+      ),
+  });
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const usernameRef = useRef();
-
-  const handleStart = () => {
-    setEmail(emailRef.current.value);
-  };
-  const handleFinish = async (e) => {
-    e.preventDefault();
-    setPassword(passwordRef.current.value);
-    setUsername(usernameRef.current.value);
+  const handleSubmit = async (values) => {
     try {
-      await axios.post("auth/register", { email, username, password });
+      await axios.post("auth/register", values);
       history.push("/login");
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="register">
       <div className="top">
         <div className="wrapper">
-          <img className="logo" src="img/logo.png" alt="" />
+          <img className="logo" src="img/logo.png" alt="none" />
         </div>
       </div>
       <div className="container">
+        <Formik
+          initialValues={{
+            username: "",
+            email: "",
+            password: "",
+          }}
+          validationSchema={validate}
+          onSubmit={handleSubmit}
+        >
+          {(formikProps) => (
+            <div>
+              <Form className="formRegister">
+                <h1>Đăng ký</h1>
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  onChange={formikProps.handleChange}
+                />
+                <TextField
+                  label="Tên hiển thị"
+                  name="username"
+                  type="text"
+                  onChange={formikProps.handleChange}
+                />
+                <TextField
+                  label="Mật khẩu"
+                  name="password"
+                  type="password"
+                  onChange={formikProps.handleChange}
+                />
+                <button type="submit" className="registerButton">
+                  Đăng ký
+                </button>
+                <span>
+                  Bạn đã có tài khoản tại Vinema?
+                  <Link className="signUpLink" to="/login">
+                    <b>Đăng nhập ngay!</b>
+                  </Link>
+                </span>
+                <small>
+                  Trang này được bảo vệ bởi reCAPTCHA của Google để đảm bảo bạn
+                  không phải là bot. <b>Tìm hiểu thêm</b>.
+                </small>
+              </Form>
+            </div>
+          )}
+        </Formik>
+
+        {/*  */}
         <input
           type="radio"
           name="radio-btn"
@@ -59,43 +115,6 @@ export default function Register({}) {
           id="radio4"
           style={{ opacity: 0 }}
         />
-        <h1>
-          Không giới hạn phim điện ảnh, truyền hình thực tế, và còn nhiều hơn
-          nữa đang đợi bạn khám phá...
-        </h1>
-        <h2>Xem mọi lúc, mọi nơi.</h2>
-        <p>
-          Bạn đã sẵn sàng? Hãy
-          <Link to="/login" className="Link loginButton">
-            {" "}
-            Đăng nhập{" "}
-          </Link>
-          hoặc nhập email của bạn vào đây để bắt đầu trở thành thành viên.
-        </p>
-        {!email ? (
-          <div className="input">
-            <input
-              type="email"
-              placeholder="Vui lòng nhập địa chỉ email để đăng kí thành viên"
-              ref={emailRef}
-            />
-            <button className="registerButton" onClick={handleStart}>
-              Bắt đầu
-            </button>
-          </div>
-        ) : (
-          <form className="input">
-            <input
-              type="username"
-              placeholder="Tên hiển thị"
-              ref={usernameRef}
-            />
-            <input type="password" placeholder="Mật khẩu" ref={passwordRef} />
-            <button className="registerButton" onClick={handleFinish}>
-              Đăng ký
-            </button>
-          </form>
-        )}
       </div>
     </div>
   );

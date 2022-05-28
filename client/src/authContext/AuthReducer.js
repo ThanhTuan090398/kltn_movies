@@ -18,6 +18,13 @@ const AuthReducer = (state, action) => {
         isFetching: false,
         error: true,
       };
+
+    case "UPDATE_USER":
+      return {
+        user: action.payload,
+        isFetching: true,
+        error: false,
+      };
     case "LOGOUT":
       return {
         user: null,

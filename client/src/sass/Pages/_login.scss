@@ -34,18 +34,24 @@
     color: white;
 
     form {
-      width: 400px;
-      height: 400px;
+      width: 440px;
+      height: 600px;
       padding: 30px;
       border-radius: 5px;
       background-color: var(--main-color);
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      .signupLink {
-        font-size: 20px;
-        margin-left: 5px;
+
+      .errorMsg {
+        font-size: 14px;
+        color: red;
+      }
+      .signUpLink {
+        font-size: 14px;
         color: purple;
+        margin-left: 5px;
+        text-decoration: none;
       }
       input {
         height: 40px;
@@ -55,22 +61,28 @@
         padding-left: 10px;
         &::placeholder {
           color: lightgray;
-          font-size: 18px;
+          font-size: 14px;
+          font-weight: bold;
         }
       }
-      button {
-        height: 40px;
+      .loginButton {
+        height: 50px;
         border-radius: 5px;
         background-color: red;
         color: white;
         border: none;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 500;
         cursor: pointer;
+        &:hover {
+          color: rgb(110, 34, 34);
+        }
       }
 
       span {
         color: lightgray;
+        font-weight: bold;
+        height: 0;
       }
     }
   }

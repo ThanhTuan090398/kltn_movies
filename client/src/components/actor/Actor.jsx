@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./actor.scss";
 
-export default function Actor({ item }) {
+export default function Actor({ item, type }) {
   const [actor, setActor] = useState({});
-
-  console.log(item); // item nhận dc là id
+  console.log(type);
   useEffect(() => {
     const getActor = async () => {
       try {
@@ -21,20 +19,27 @@ export default function Actor({ item }) {
       }
     };
     getActor();
-  }, [item]);
-
+  }, [item, type]);
   return (
-    <div className="actorPage">
-      <div className="card">
-        <div className="card-top">
-          <img className="actorImg" src={actor.profilePic} alt="" />
+    <>
+      {type === "name" ? (
+        <div>
+          <span>{String(actor.name).substring(0, 16) + " ,"}</span>
         </div>
-        <div className="card-bot">
-          <span className="actorName">
-            {String(actor.name).substring(0, 16)}
-          </span>
+      ) : (
+        <div className="actorPage">
+          <div className="card">
+            <div className="card-top">
+              <img className="actorImg" src={actor.profilePic} alt="" />
+            </div>
+            <div className="card-bot">
+              <span className="actorName">
+                {String(actor.name).substring(0, 16)}
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }

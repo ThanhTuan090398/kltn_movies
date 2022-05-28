@@ -1,24 +1,22 @@
-import { AcUnit } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import Featured from "../../components/featured/Featured";
 import List from "../../components/list/List";
-import ListMovieTheater from "../../components/list/ListMovieTheater";
 import Navbar from "../../components/navbar/Navbar";
 import axios from "axios";
-// import "./home.scss";
 import Footer from "../../components/footer/Footer";
-import Watch from "../watch/Watch";
+import Skeleton from "../../components/skeleton/Skeleton";
 
 const Home = ({ type }) => {
   const [lists, setLists] = useState([]);
   const [genre, setGenre] = useState(null);
-  const [checked, setChecked] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRandomLists = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(
-          `lists${type ? "?type=" + type : ""}${
+          `/lists${type ? "?type=" + type : ""}${
             genre ? "&genre=" + genre : ""
           }`,
           {
@@ -28,34 +26,43 @@ const Home = ({ type }) => {
             },
           }
         );
-
         setLists(res.data);
       } catch (err) {
         console.log(err);
       }
+      setLoading(false);
     };
     getRandomLists();
   }, [type, genre]);
 
-  return (
-    <div className="home">
-      {/* NAVBAR */}
-      <Navbar />
-      {/* FEATURE */}
-      <Featured type={type} setGenre={setGenre} checked={checked} />
+  localStorage.setItem("movies", JSON.stringify(null));
 
+  return (
+    <>
       {/* LIST */}
-      <div className="showList">
-        {lists.map((list, index) => {
-          return (
-            <div key={index}>
-              <List list={list} />;
-            </div>
-          );
-        })}
-      </div>
-      <Footer />
-    </div>
+      {loading ? (
+        <Skeleton type="circle" />
+      ) : (
+        <div className="home">
+          {/* NAVBAR */}
+          <Navbar />
+          {/* FEATURE */}
+          <Featured type={type} setGenre={setGenre} />
+
+          {/* LIST */}
+          <div className="showList">
+            {lists.map((list, index) => {
+              return (
+                <div key={index}>
+                  <List list={list} />;
+                </div>
+              );
+            })}
+          </div>
+          <Footer />
+        </div>
+      )}
+    </>
   );
 };
 

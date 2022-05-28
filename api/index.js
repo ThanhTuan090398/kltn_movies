@@ -32,10 +32,6 @@ app.use("/api/comments", commentRoute);
 //   console.log("Backend server is running!");
 // });
 
-app.listen(process.env.PORT || 8800, function () {
-  console.log(
-    "Express server listening on port %d in %s mode",
-    this.address().port,
-    app.settings.env
-  );
+app.listen(port, () => {
+  console.log("App is running on port " + port);
 });

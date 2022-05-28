@@ -4,23 +4,23 @@
   position: relative;
 
   .listTitle {
-    color: white;
+    color: orange;
     letter-spacing: 2px;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 400;
     margin-left: 90px;
+    font-weight: bold;
     .cinemaPng {
       width: 60px;
       height: 60px;
       position: absolute;
       left: 40px;
       z-index: -1;
-      top: -20px;
+      top: -18px;
     }
   }
 
   .wrapper {
-    //position: relative;
     .sliderArrow {
       width: 50px;
       height: 100%;
@@ -44,16 +44,10 @@
     .listItemShow {
       margin-left: 50px;
       margin-right: 20px;
-      //display: flex;
+
       margin-top: 10px;
       width: 95%;
       transition: all 1s ease;
-
-      // transform: translateX(0px);
-
-      // .singleItemPlace {
-      //   display: inline-block;
-      // }
     }
   }
 }
